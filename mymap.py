@@ -17,7 +17,13 @@ html = """<h4>Volcano information:</h4>
 Height: %s m
 """
 
-
+def color_producer(elevation):
+      if elevation < 1000:
+            return 'green'
+      elif elevation<2000:
+            return 'orange'
+      else:
+            return 'red'
 map = folium.Map(location=[38.58,-99.09], zoom_start=5, tiles="Stamen Terrain")
 #add markers
 
@@ -32,7 +38,7 @@ for lt, ln, el in zip(lat, lon, elev):
                             location=[lt, ln],
                             #popup=str(el)+" m",
                             popup=folium.Popup(iframe),
-                            icon=folium.Icon(color='green')
+                            icon=folium.Icon(color=color_producer(el))
                             )
             )
 map.add_child(fg)
