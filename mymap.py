@@ -2,17 +2,20 @@
 import folium
 import pandas
 import os
+import webbrowser
 
 def color_producer(elevation):
       if elevation < 1000:
             return 'green'
-      elif elevation<2000:
+      elif elevation < 2000:
             return 'orange'
       else:
             return 'red'
 
 volcanoesFilePath = 'Volcanoes.txt'
 populationFilePath = 'world.json'
+map_html='myMap.html'
+
 if os.path.exists(volcanoesFilePath):
       data = pandas.read_csv(volcanoesFilePath)
 else:
@@ -63,8 +66,12 @@ style_function=lambda x:
 {'fillColor':'green' if x['properties']['POP2005']<10000000
 else 'orange' if 1000000<= x['properties']['POP2005']<20000000 else 'red'}))
 
-map.add_child(fgv)
 map.add_child(fgp)
+map.add_child(fgv)
+
 map.add_child(folium.LayerControl())
 
-map.save("Map1.html")
+map.save(map_html)
+print("Map saved in {}".format(map_html))
+
+webbrowser.open('file://' + os.path.realpath(map_html))
